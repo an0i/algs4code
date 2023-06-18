@@ -21,6 +21,7 @@ public class Transaction {
     }
     public boolean equals(Object x) {
         if (this==x) return true;
+        if (x==null) return false;
         if (this.getClass()!=x.getClass()) return false;
         Transaction that = (Transaction) x;
         if (this.who()!=that.who()) return false;
