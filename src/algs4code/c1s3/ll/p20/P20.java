@@ -1,15 +1,21 @@
-package algs4code.c1s3.p20;
+package algs4code.c1s3.ll.p20;
 
 public class P20 {
 	private static class Node {
 		public String item;
 		public Node next;
-		public void print() {
-			for (Node i=this;i!=null;i=i.next) {
-				System.out.println(i.item);
+		public String toString() {
+			StringBuilder sb = new StringBuilder();
+			Node i=this;
+			while (i.next!=null) {
+				sb.append(i.item + " ");
+				i=i.next;
 			}
+			sb.append(i.item);
+			return sb.toString();
 		}
 		public void delete(int k) {
+			if (k==1) throw new RuntimeException();
 			Node current = this;
 			int i = 1;
 			while (current.next.next!=null && i<k-1) {
@@ -35,7 +41,8 @@ public class P20 {
 		n2.next = n3;
 		n3.next = n4;
 
+		System.out.println(n1);
 		n1.delete(1);
-		n1.print();
+		System.out.println(n1);
 	}
 }
