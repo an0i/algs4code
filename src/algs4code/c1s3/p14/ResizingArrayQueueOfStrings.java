@@ -1,19 +1,13 @@
 package algs4code.c1s3.p14;
 
 import edu.princeton.cs.algs4.StdIn;
+import java.util.Arrays;
 
 public class ResizingArrayQueueOfStrings {
-    private static final int INIT_CAPACITY = 8;
-    private String[] q;
+    private String[] q = new String[8];
     private int first;
     private int last;
     private int n;
-    public ResizingArrayQueueOfStrings() {
-        q = new String[INIT_CAPACITY];
-        first = 0;
-        last = 0;
-        n = 0;
-    }
     private void resize(int capacity) {
         assert capacity >= n;
         String[] temp = new String[capacity];
@@ -27,8 +21,8 @@ public class ResizingArrayQueueOfStrings {
     public void enqueue(String string) {
         if (n==q.length) this.resize(q.length*2);
 
-        ++last;
-        if (last==q.length || n==0) last = 0;
+        if (last+1==q.length||n==0) last=0;
+        else ++last;
         q[last] = string;
         ++n;
     }
@@ -37,9 +31,9 @@ public class ResizingArrayQueueOfStrings {
 
         String temp = q[first];
         q[first] = null;
-        ++first;
+        if (first+1==q.length||n==1) first=0;
+        else ++first;
         --n;
-        if (first==q.length || n==0) first = 0;
 
         if (n > 0 && n==q.length/4) this.resize(q.length/2);
         return temp;
@@ -50,16 +44,22 @@ public class ResizingArrayQueueOfStrings {
     public int size() {
         return n;
     }
+    public String toString() {
+        return Arrays.toString(q);
+    }
     public static void main(String[] args) {
-        ResizingArrayQueueOfStrings q = new ResizingArrayQueueOfStrings();
+        ResizingArrayQueueOfStrings raq = new ResizingArrayQueueOfStrings();
         while (!StdIn.isEmpty()) {
             String item = StdIn.readString();
             if (!item.equals("-")) {
-                q.enqueue(item);
-            } else if (!q.isEmpty()) {
-                System.out.print(q.dequeue() + " ");
+                raq.enqueue(item);
+                System.out.println(raq);
+            } else if (!raq.isEmpty()) {
+                String temp = raq.dequeue();
+                System.out.print(raq);
+                System.out.println(" " + temp);
             }
         }
-        System.out.println("(" + q.size() + " left on queue)");
+        System.out.println("(" + raq.size() + " left on queue)");
     }
 }
